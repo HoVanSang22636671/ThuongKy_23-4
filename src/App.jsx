@@ -1,9 +1,9 @@
 // src/App.jsx
 import { useState, useEffect } from 'react';
 import ProductList from "./components/ProductList";
-import AddProductForm from './components/AddProductFrom';
-import SearchProduct from './components/SearchProduct';
-import FilterCategory from './components/FilterCategory'; // Import component mới
+import AddProductForm from "./components/AddProductFrom";
+import SearchProduct from "./components/SearchProduct";
+import FilterCategory from "./components/FilterCategory";
 
 const defaultProducts = [
   { id: 1, name: "Áo thun", price: 200000, category: "Thời trang", stock: 12 },
@@ -13,8 +13,8 @@ const defaultProducts = [
 
 function App() {
   const [products, setProducts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState(""); // State để lưu từ khóa tìm kiếm
-  const [selectedCategory, setSelectedCategory] = useState("Tất cả"); // State để lưu danh mục được chọn
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("Tất cả");
 
   // Load dữ liệu từ localStorage khi ứng dụng khởi động
   useEffect(() => {
@@ -61,12 +61,22 @@ function App() {
       selectedCategory === "Tất cả" ? true : product.category === selectedCategory
     );
 
+  // Tính tổng số sản phẩm và tổng tồn kho
+  const totalProducts = filteredProducts.length;
+  const totalStock = filteredProducts.reduce((sum, product) => sum + product.stock, 0);
+
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Quản lý sản phẩm</h1>
       <SearchProduct onSearch={handleSearch} />
       <FilterCategory onFilter={handleFilter} />
       <AddProductForm onAdd={handleAddProduct} />
+
+      {/* Hiển thị tổng số sản phẩm và tổng tồn kho */}
+      <div className="mb-4 text-lg font-semibold">
+        Tổng sản phẩm: {totalProducts} | Tổng tồn kho: {totalStock}
+      </div>
+
       <ProductList products={filteredProducts} onDelete={handleDeleteProduct} />
     </div>
   );
