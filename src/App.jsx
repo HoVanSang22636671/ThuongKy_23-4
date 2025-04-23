@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import ProductList from "./components/ProductList"
+import AddProductForm from './components/AddProductFrom';
 
 function App() {
   const [products, setProducts] = useState([
@@ -8,9 +9,13 @@ function App() {
     { id: 3, name: "Máy xay sinh tố", price: 800000, category: "Gia dụng", stock: 10 },
   ]);
 
+  const handleAddProduct = (newProduct) => {
+    setProducts([...products, newProduct]);
+  };
   return (
     <div className="p-4">
-      <ProductList products={products}/>
+      <AddProductForm onAdd={handleAddProduct} />
+      <ProductList products={products} />
     </div>
   )
 }
