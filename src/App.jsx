@@ -5,6 +5,7 @@ import AddProductForm from "./components/AddProductFrom";
 import SearchProduct from "./components/SearchProduct";
 import FilterCategory from "./components/FilterCategory";
 
+
 const defaultProducts = [
   { id: 1, name: "Áo thun", price: 200000, category: "Thời trang", stock: 12 },
   { id: 2, name: "Tai nghe", price: 1500000, category: "Công nghệ", stock: 5 },
@@ -16,20 +17,20 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Tất cả");
 
-  // Load dữ liệu từ localStorage khi ứng dụng khởi động
+  // Tải dữ liệu từ localStorage khi ứng dụng khởi động
   useEffect(() => {
     const storedProducts = localStorage.getItem("products");
     if (storedProducts) {
-      setProducts(JSON.parse(storedProducts));
+      setProducts(JSON.parse(storedProducts)); // Tải dữ liệu từ localStorage
     } else {
-      setProducts(defaultProducts);
+      setProducts(defaultProducts); // Nếu không có dữ liệu, sử dụng defaultProducts
       localStorage.setItem("products", JSON.stringify(defaultProducts));
     }
   }, []);
 
   // Lưu dữ liệu vào localStorage khi products thay đổi
   useEffect(() => {
-    localStorage.setItem("products", JSON.stringify(products));
+    localStorage.setItem("products", JSON.stringify(products)); // Lưu products vào localStorage
   }, [products]);
 
   // Xử lý thêm sản phẩm
@@ -71,12 +72,9 @@ function App() {
       <SearchProduct onSearch={handleSearch} />
       <FilterCategory onFilter={handleFilter} />
       <AddProductForm onAdd={handleAddProduct} />
-
-      {/* Hiển thị tổng số sản phẩm và tổng tồn kho */}
       <div className="mb-4 text-lg font-semibold">
         Tổng sản phẩm: {totalProducts} | Tổng tồn kho: {totalStock}
       </div>
-
       <ProductList products={filteredProducts} onDelete={handleDeleteProduct} />
     </div>
   );
